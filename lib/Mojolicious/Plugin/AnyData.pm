@@ -81,7 +81,52 @@ just by changing a development mode to production in your project:
 
 =head1 METHOD/HELPERS
 
+Mojolicious::Plugin::AnyData provides all method available from DBD::AnyData
+and DBI.
+
 A helper will be created with your specified name or 'dbh' by default.
+
+On startup available two additional methods:
+
+=head3 load_data
+
+Load data from perl-struct (hashref) into the memory. Supports several tables
+at the same time.
+
+    $self->plugin(any_data => {
+	load_data => {
+	    artists => [
+		['id_artist', 'artist_name'],
+		[          1, 'Metallica'],
+		[          2, 'Dire Staits'],
+	    ],
+	    releases => [
+		['id_release', 'release_name',  'id_artist'],
+		[           1, 'Death Magnetic',          1],
+		[           2, 'Load',                    1],
+	    ],
+	},
+    });
+    
+You also can load data stuctures from separate config using
+Mojolicious::Plugin::Config:
+
+    my $data = $self->plugin(config => {
+	file => 'test_data.conf'
+    });
+    
+    $self->plugin(any_data => {
+	load_data => $data,
+	helper => 'dbh'
+    });
+
+=head3 func
+
+Runs DBD::AnyData::func method after creating AnyData-object with params:
+
+    $self->plugin(any_data => {
+	func => ['cars', 'XML', 'cars.xml', 'ad_import'],
+    });
 
 =head1 SEE ALSO
 
