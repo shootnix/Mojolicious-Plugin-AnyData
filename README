@@ -1,11 +1,14 @@
 Mojolicious::Plugin::AnyData
 ============================
 This plugin for Mojolicious web-framework
-provides handler of DBD::AnyData class 
-and gives a way to load up your testing
-data not from the database, just from
-a memory or config files.
+provides access to DBD::AnyData instance
+from mojolicious helper.
+It gives you a way to load up your test
+data directly from a memory or a config files,
+not from database.
 
 It works ONLY in development mode, so you
-can use this plugin as a testing data source,
+can use this plugin as a test data source,
 without a database connection.
+
+For more information see DBD::AnyData
