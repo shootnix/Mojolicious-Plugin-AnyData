@@ -143,30 +143,3 @@ at L<https://github.com/shootnix/Mojolicious-Plugin-AnyData/issues>.
 If you want to contribute changes or otherwise involve yourself in development,
 feel free to fork the Git repository from
 L<https://github.com/shootnix/Mojolicious-Plugin-AnyData/>.
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

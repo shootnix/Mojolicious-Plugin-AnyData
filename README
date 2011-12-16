@@ -3,9 +3,10 @@ Mojolicious::Plugin::AnyData
 This plugin for Mojolicious web-framework
 provides access to DBD::AnyData instance
 from mojolicious helper.
+
 It gives you a way to load up your test
-data directly from a memory or a config files,
-not from database.
+data directly from a memory or separate
+config files, not from database.
 
 It works ONLY in development mode, so you
 can use this plugin as a test data source,
@@ -54,7 +55,8 @@ get '/new-func' => sub {
 	    model, car_number
 	from cars, cars_numbers
 	where
-	    id = ?
+	    cars.id = ?
+	        and cars.id = cars_numbers.id 
     }, undef, 1);
     
     $self->reder(text => Dumper $cars_data);
