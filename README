@@ -24,14 +24,14 @@ plugin any_data => {
 	    [   2, 'Lexus'],
 	],
     },
-    helper => 'dbh',
+    helper => 'db',
 };
 
 get '/get-car/:id' => sub {
     my $self = shift;
     
     my $id = $self->stash->{id};
-    my $model = $self->dbh->selectrow_array(qq{
+    my $model = $self->db->selectrow_array(qq{
         select model
 	from cars
 	where
@@ -50,7 +50,7 @@ get '/new-func' => sub {
 	[     '34567',    2],
     ], 'ad_import');
     
-    my $cars_data = $self->dbh->selectrow_hashref(qq{
+    my $cars_data = $self->db->selectrow_hashref(qq{
         select
 	    model, car_number
 	from cars, cars_numbers
