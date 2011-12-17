@@ -1,2 +1,7 @@
+1.1 18-12-2011
+    + Added possibility to load data by filename in method load_data.
+    * Improved documentation.
+    * Changed default name of helper to 'db'
+
 1.0: 16-12-2011
     First release on github.

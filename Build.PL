@@ -23,7 +23,7 @@ my %module_build_args = (
     'Alexander Ponomarev <shootnix@gmail.com>'
   ],
   'dist_name' => 'Mojolicious-Plugin-AnyData',
-  'dist_version' => '1.0',
+  'dist_version' => '1.1',
   'license' => 'perl',
   'module_name' => 'Mojolicious::Plugin::AnyData',
   'recommends' => {},

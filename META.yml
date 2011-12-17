@@ -27,4 +27,4 @@ requires:
 resources:
   bugtracker: https://github.com/shootnix/Mojolicious-Plugin-AnyData/issues
   repository: git://github.com/shootnix/Mojolicious-Plugin-AnyData.git
-version: 1.0
+version: 1.1

@@ -1,6 +1,6 @@
 package Mojolicious::Plugin::AnyData;
 BEGIN {
-    $Mojolicious::Plugin::AnyData::VERSION = '1.0';
+    $Mojolicious::Plugin::AnyData::VERSION = '1.1';
 }
 
 use Mojo::Base 'Mojolicious::Plugin';
@@ -12,16 +12,23 @@ sub register {
     
     return if $app->mode && $app->mode eq 'production';
 
-    my $data   = $param->{load_data};
+    my ($data, $data_file);
     my $func   = $param->{func};
     my $helper = $param->{helper};
-    $helper ||= 'dbh';
+    $helper ||= 'db';
     my $dbh  = DBI->connect('dbi:AnyData:(RaiseError=>1)');
     
-    if ( $data && ref $data eq 'HASH' && keys %$data > 0 ) {
-	for my $table_name ( keys %$data ) {
-	    $dbh->func($table_name, 'ARRAY', $data->{$table_name}, 'ad_import');
-        }
+    if ( ref $param->{load_data} ) {
+	$data = $param->{load_data};
+	_load($dbh, $data);
+    }
+    else {
+	$data_file = $param->{load_data};
+	$data = $app->plugin(config => {
+	    file => $data_file,
+	    stash_key => 'any_data',
+	});
+	_load($dbh, $data);
     }
     
     if ( $func && ref $func eq 'ARRAY' && scalar @$func > 0 ) {
@@ -29,6 +36,18 @@ sub register {
     }
     
     $app->helper( $param->{helper} => sub { return $dbh });
+}
+
+sub _load {
+    my ($dbh, $data) = @_;
+    
+    if ( $data && ref $data eq 'HASH' && keys %$data > 0 ) {
+    	TABLE:
+	for my $table_name ( keys %$data ) {
+	    next TABLE unless ref $data->{$table_name} eq 'ARRAY';
+    	    $dbh->func($table_name, 'ARRAY', $data->{$table_name}, 'ad_import');
+        }
+    }
 }
 
 1;
@@ -40,7 +59,7 @@ Mojolicious::Plugin::AnyData
 
 =head1 VERSION
 
-version 1.0
+version 1.1
 
 =head1 DESCRIPTION
 
@@ -60,7 +79,7 @@ Mojolicious::Plugin::AnyData — using your perl-data in memory like a database 
 		    [ 1, 'Honda'], ],
 		},
 	    },
-	    helper => 'dbh',
+	    helper => 'db',
 	});
 	
 	# ... or
@@ -72,7 +91,7 @@ Mojolicious::Plugin::AnyData — using your perl-data in memory like a database 
 =head1 CONFIGURATION
 
 There is no need to required option, you can load data in every moment in
-your code, and helper turns to default value 'dbh' if not specified.
+your code, and helper turns to default value 'db' if not specified.
 
 You can change DBD::AnyData instance to your production database handler,
 just by changing a development mode to production in your project:
@@ -84,7 +103,7 @@ just by changing a development mode to production in your project:
 Mojolicious::Plugin::AnyData provides all method available from DBD::AnyData
 and DBI.
 
-A helper will be created with your specified name or 'dbh' by default.
+A helper will be created with your specified name or 'db' by default.
 
 On startup available two additional methods:
 
@@ -110,15 +129,15 @@ at the same time.
     
 You also can load data stuctures from separate config using
 Mojolicious::Plugin::Config:
-
-    my $data = $self->plugin(config => {
-	file => 'test_data.conf'
-    });
-    
+  
     $self->plugin(any_data => {
-	load_data => $data,
-	helper => 'dbh'
+	load_data => 'test_data.conf',
+	helper    => 'db'
     });
+
+Plugin automatically checks data type (hashref or simple scalar) and then,
+if it simple scalar, tries to use this as a file name to load data
+by Mojolicious::Plugin::Config.
 
 =head3 func
 
