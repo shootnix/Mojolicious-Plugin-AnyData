@@ -86,6 +86,11 @@ Mojolicious::Plugin::AnyData — using your perl-data in memory like a database 
 	$self->plugin(any_data => {
 	    func => ['cars', 'XML', 'cars.xml', 'ad_import'],
 	});
+	
+	# ... or
+	$self->plugin(any_data => {
+	    load_data => 'my_test_data.conf'
+	});
     }
 
 =head1 CONFIGURATION
