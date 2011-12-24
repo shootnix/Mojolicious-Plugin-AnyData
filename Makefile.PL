@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker 6.31;
 
 my %WriteMakefileArgs = (
   'ABSTRACT' => 'Use and handle any data like a database source in test mode',
-  'AUTHOR' => 'Alexander Ponomarev <shootnix@gmail.com>',
+  'AUTHOR' => 'Alexander Ponomarev <shootnix@cpan.org>',
   'BUILD_REQUIRES' => {
     'DBD::AnyData' => '0',
     'English' => '0',
@@ -28,7 +28,7 @@ my %WriteMakefileArgs = (
     'DBD::AnyData' => '0',
     'Mojo::Base' => '0'
   },
-  'VERSION' => '1.1',
+  'VERSION' => '1.11',
   'test' => {
     'TESTS' => 't/*.t'
   }

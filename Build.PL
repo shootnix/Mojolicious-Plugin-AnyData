@@ -20,10 +20,10 @@ my %module_build_args = (
   },
   'dist_abstract' => 'Use and handle any data like a database source in test mode',
   'dist_author' => [
-    'Alexander Ponomarev <shootnix@gmail.com>'
+    'Alexander Ponomarev <shootnix@cpan.org>'
   ],
   'dist_name' => 'Mojolicious-Plugin-AnyData',
-  'dist_version' => '1.1',
+  'dist_version' => '1.11',
   'license' => 'perl',
   'module_name' => 'Mojolicious::Plugin::AnyData',
   'recommends' => {},

@@ -1,7 +1,7 @@
 ---
 abstract: "Use and handle any data like a database source in test mode"
 author:
-  - 'Alexander Ponomarev <shootnix@gmail.com>'
+  - 'Alexander Ponomarev <shootnix@cpan.org>'
 build_requires:
   DBD::AnyData: 0
   English: 0
@@ -27,4 +27,4 @@ requires:
 resources:
   bugtracker: https://github.com/shootnix/Mojolicious-Plugin-AnyData/issues
   repository: git://github.com/shootnix/Mojolicious-Plugin-AnyData.git
-version: 1.1
+version: 1.11

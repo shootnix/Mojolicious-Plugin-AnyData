@@ -1,5 +1,7 @@
 Mojolicious::Plugin::AnyData
 ============================
+VERSION 1.11
+
 This plugin for Mojolicious web-framework
 provides access to DBD::AnyData instance
 from mojolicious helper.
@@ -61,3 +63,17 @@ get '/new-func' => sub {
     
     $self->reder(text => Dumper $cars_data);
 }
+
+===========================
+INSTALL
+
+You may install this module following commands:
+
+$ perl Makefile.PL
+$ make
+$ make test
+$ sudo make install
+
+Or directly from CPAN:
+
+$ sudo cpan Mojolicious::Plugin::AnyData

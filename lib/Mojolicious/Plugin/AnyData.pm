@@ -1,10 +1,10 @@
 package Mojolicious::Plugin::AnyData;
+
 BEGIN {
-    $Mojolicious::Plugin::AnyData::VERSION = '1.1';
+    $Mojolicious::Plugin::AnyData::VERSION = '1.11';
 }
 
 use Mojo::Base 'Mojolicious::Plugin';
-
 use DBI;
 
 sub register {
@@ -59,11 +59,11 @@ Mojolicious::Plugin::AnyData
 
 =head1 VERSION
 
-version 1.1
+version 1.11
 
 =head1 DESCRIPTION
 
-Mojolicious::Plugin::AnyData — using your perl-data in memory like a database source.
+Mojolicious::Plugin::AnyData uses your perl-data in the memory like a database source.
 
 =head1 SYNOPSIS
 
@@ -95,8 +95,8 @@ Mojolicious::Plugin::AnyData — using your perl-data in memory like a database 
 
 =head1 CONFIGURATION
 
-There is no need to required option, you can load data in every moment in
-your code, and helper turns to default value 'db' if not specified.
+This plugin don't needs any required options, you may load data at any moment 
+in your program, helper will turn to default value 'db' if it not specified.
 
 You can change DBD::AnyData instance to your production database handler,
 just by changing a development mode to production in your project:
@@ -105,7 +105,7 @@ just by changing a development mode to production in your project:
 
 =head1 METHOD/HELPERS
 
-Mojolicious::Plugin::AnyData provides all method available from DBD::AnyData
+Mojolicious::Plugin::AnyData provides all methods available from DBD::AnyData
 and DBI.
 
 A helper will be created with your specified name or 'db' by default.
@@ -114,7 +114,7 @@ On startup available two additional methods:
 
 =head3 load_data
 
-Load data from perl-struct (hashref) into the memory. Supports several tables
+Load data from perl-struct (hashref) into the memory. Supports a few tables
 at the same time.
 
     $self->plugin(any_data => {
@@ -158,7 +158,7 @@ Mojolicious, DBI, DBD::AnyData
 
 =head1 AUTHOR
 
-Alexander Ponomarev, C<< <shootnix@gmail.com> >>
+Alexander Ponomarev, C<< <shootnix@cpan.org> >>
 
 =head1 BUGS/CONTRIBUTING
 
