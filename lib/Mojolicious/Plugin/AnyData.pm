@@ -116,8 +116,8 @@ On startup, there are two additional methods available:
 
 =head3 load_data
 
-Loads data from perl struct (hashref) into the memory. Supports several tables
-at the same time.
+It loads data from perl struct (hashref) into the memory. 
+It can support several tables at the same time.
 
     $self->plugin(any_data => {
 	load_data => {
