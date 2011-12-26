@@ -1,7 +1,7 @@
 package Mojolicious::Plugin::AnyData;
 
 BEGIN {
-    $Mojolicious::Plugin::AnyData::VERSION = '1.11';
+    $Mojolicious::Plugin::AnyData::VERSION = '1.12';
 }
 
 use Mojo::Base 'Mojolicious::Plugin';
@@ -59,7 +59,7 @@ Mojolicious::Plugin::AnyData
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 DESCRIPTION
 
