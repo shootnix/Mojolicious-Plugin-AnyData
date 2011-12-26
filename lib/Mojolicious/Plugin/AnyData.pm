@@ -101,7 +101,7 @@ The helper returns the default value 'db' if they haven't been
 specified before.
 
 You can switch from DBD::AnyData instance to your production database
-handler by change the development mode to production in your project:
+handler by change development mode to production in your project:
 
     app->mode('production');
 
