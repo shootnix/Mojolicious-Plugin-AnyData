@@ -2,7 +2,7 @@ Mojolicious::Plugin::AnyData
 ============================
 VERSION 1.11
 
-This Mojolicious web framework plugin provides the access 
+This Mojolicious web framework plugin provides access 
 to DBD::AnyData instance from a Mojolicious helper.
 
 It allows the test data to be loaded directly from the memory
@@ -71,6 +71,6 @@ $ make
 $ make test
 $ sudo make install
 
-Or directly from CPAN:
+Or, directly from CPAN:
 
 $ sudo cpan Mojolicious::Plugin::AnyData
