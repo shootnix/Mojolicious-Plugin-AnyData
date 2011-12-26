@@ -95,8 +95,8 @@ Mojolicious::Plugin::AnyData uses perl data in the memory like a database source
 
 =head1 CONFIGURATION
 
-This plugin doesn't require any options at the startup, so you
-may load your data at any moment in your program. 
+This plugin doesn't require any options at startup, so you
+may load your data in your program at any time. 
 The helper returns the default value 'db' if they haven't been 
 specified before.
 
@@ -164,7 +164,7 @@ Alexander Ponomarev, C<< <shootnix@cpan.org> >>
 
 =head1 BUGS/CONTRIBUTING
 
-Please report any bugs and feature requests via the web interface
+Please report any bugs and feature requests via the Web interface
 at L<https://github.com/shootnix/Mojolicious-Plugin-AnyData/issues>.
-If you want to contribute, feel free to fork the Git repository
+If you want to contribute, feel free to fork our Git repository
 L<https://github.com/shootnix/Mojolicious-Plugin-AnyData/>.
