@@ -63,7 +63,7 @@ version 1.11
 
 =head1 DESCRIPTION
 
-Mojolicious::Plugin::AnyData uses your perl-data in the memory like a database source.
+Mojolicious::Plugin::AnyData uses perl data in the memory like a database source.
 
 =head1 SYNOPSIS
 
@@ -95,26 +95,28 @@ Mojolicious::Plugin::AnyData uses your perl-data in the memory like a database s
 
 =head1 CONFIGURATION
 
-This plugin don't needs any required options, you may load data at any moment 
-in your program, helper will turn to default value 'db' if it not specified.
+This plugin doesn't require any options at the startup, so you
+may load your data at any moment in your program. 
+The helper returns the default value 'db' if they haven't been 
+specified before.
 
-You can change DBD::AnyData instance to your production database handler,
-just by changing a development mode to production in your project:
+You can switch from DBD::AnyData instance to your production database
+handler by change the development mode to production in your project:
 
     app->mode('production');
 
 =head1 METHOD/HELPERS
 
-Mojolicious::Plugin::AnyData provides all methods available from DBD::AnyData
+Mojolicious::Plugin::AnyData provides all methods inherited from DBD::AnyData
 and DBI.
 
-A helper will be created with your specified name or 'db' by default.
+The helper will be created with your specified name or 'db', by default.
 
-On startup available two additional methods:
+On startup, there are two additional methods available:
 
 =head3 load_data
 
-Load data from perl-struct (hashref) into the memory. Supports a few tables
+Loads data from perl struct (hashref) into the memory. Supports several tables
 at the same time.
 
     $self->plugin(any_data => {
@@ -132,7 +134,7 @@ at the same time.
 	},
     });
     
-You also can load data stuctures from separate config using
+You can also load data stuctures from a separate config, using
 Mojolicious::Plugin::Config:
   
     $self->plugin(any_data => {
@@ -140,13 +142,13 @@ Mojolicious::Plugin::Config:
 	helper    => 'db'
     });
 
-Plugin automatically checks data type (hashref or simple scalar) and then,
-if it simple scalar, tries to use this as a file name to load data
-by Mojolicious::Plugin::Config.
+The plugin automatically checks the data type (hashref or simple scalar) and 
+in case if it's a scalar, treats it as the file name containing data.
+They will be loaded automagically using Mojolicious::Plugin::Config.
 
 =head3 func
 
-Runs DBD::AnyData::func method after creating AnyData-object with params:
+Starts DBD::AnyData::func method after creating AnyData object with params:
 
     $self->plugin(any_data => {
 	func => ['cars', 'XML', 'cars.xml', 'ad_import'],
@@ -162,8 +164,7 @@ Alexander Ponomarev, C<< <shootnix@cpan.org> >>
 
 =head1 BUGS/CONTRIBUTING
 
-Please report any bugs or feature requests to through the web interface
+Please report any bugs and feature requests via the web interface
 at L<https://github.com/shootnix/Mojolicious-Plugin-AnyData/issues>.
-If you want to contribute changes or otherwise involve yourself in development,
-feel free to fork the Git repository from
+If you want to contribute, feel free to fork the Git repository
 L<https://github.com/shootnix/Mojolicious-Plugin-AnyData/>.
