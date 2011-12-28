@@ -1,6 +1,6 @@
 Mojolicious::Plugin::AnyData
 ============================
-VERSION 1.12
+VERSION 1.14
 
 This Mojolicious web framework plugin provides access 
 to DBD::AnyData instance from a Mojolicious helper.

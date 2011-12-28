@@ -28,7 +28,7 @@ my %WriteMakefileArgs = (
     'DBD::AnyData' => '0',
     'Mojo::Base' => '0'
   },
-  'VERSION' => '1.12',
+  'VERSION' => '1.14',
   'test' => {
     'TESTS' => 't/*.t'
   }
