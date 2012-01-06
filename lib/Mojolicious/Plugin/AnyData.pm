@@ -1,3 +1,12 @@
+################################################################################
+#
+#  Mojolicious::Plugin::AnyData 1.20
+#
+#    uses perl data in the memory like a database source.
+#    author: Alexander Ponomarev <shootnix@cpan.org>
+#
+################################################################################
+
 package Mojolicious::Plugin::AnyData;
 
 BEGIN {
@@ -7,6 +16,12 @@ BEGIN {
 use Mojo::Base 'Mojolicious::Plugin';
 use DBI;
 
+has 'dbh';
+has 'app';
+
+my $loaded_tables = []; # keeps all names of loaded tables
+
+# Runs on a startup
 sub register {
     my ($self, $app, $param) = @_;
     
@@ -18,17 +33,11 @@ sub register {
     $helper ||= 'db';
     my $dbh  = DBI->connect('dbi:AnyData:(RaiseError=>1)');
     
-    if ( ref $param->{load_data} ) {
-	$data = $param->{load_data};
-	$self->load($dbh, $data);
-    }
-    else {
-	$data_file = $param->{load_data};
-	$data = $app->plugin(config => {
-	    file => $data_file,
-	    stash_key => 'any_data',
-	});
-	$self->load($dbh, $data);
+    $self->dbh($dbh);
+    $self->app($app);
+    
+    if ( $param->{load_data} ) {
+	$self->load_data( $param->{load_data} );
     }
     
     if ( $func && ref $func eq 'ARRAY' && scalar @$func > 0 ) {
@@ -39,14 +48,39 @@ sub register {
     $app->helper( any_data => sub { return $self } );
 }
 
-sub load {
-    my ($self, $dbh, $data) = @_;
+# Load data into a memory in a different ways
+# in: arrayref (data structure) or scalar (filename)
+sub load_data {
+    my ($self, $data) = @_;
+    
+    return unless $self->dbh && $self->app;
+    
+    if ( ref $data ) {
+    	load_dbh($self->dbh, $data);
+    }
+    else {
+    	my $data_file = $data;
+    	$data = $self->app->plugin(config => {
+    	    file => $data_file,
+    	    stash_key => 'any_data',
+    	});
+    	load_dbh($self->dbh, $data);
+    }
+}
+
+# Executes DBD::AnyData::func method to load data into a memory
+# Doesn't work if table_name is already exists in $loaded_tables arrayref
+sub load_dbh {
+    my ($dbh, $data) = @_;
     
     if ( $data && ref $data eq 'HASH' && keys %$data > 0 ) {
     	TABLE:
 	for my $table_name ( keys %$data ) {
 	    next TABLE unless ref $data->{$table_name} eq 'ARRAY';
+	    next TABLE if $table_name ~~ $loaded_tables;
+	    
     	    $dbh->func($table_name, 'ARRAY', $data->{$table_name}, 'ad_import');
+	    push @$loaded_tables, $table_name;
         }
     }
 }
