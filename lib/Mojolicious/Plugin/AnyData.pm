@@ -1,7 +1,7 @@
 package Mojolicious::Plugin::AnyData;
 
 BEGIN {
-    $Mojolicious::Plugin::AnyData::VERSION = '1.14';
+    $Mojolicious::Plugin::AnyData::VERSION = '1.20';
 }
 
 use Mojo::Base 'Mojolicious::Plugin';
@@ -20,7 +20,7 @@ sub register {
     
     if ( ref $param->{load_data} ) {
 	$data = $param->{load_data};
-	_load($dbh, $data);
+	$self->load($dbh, $data);
     }
     else {
 	$data_file = $param->{load_data};
@@ -28,18 +28,19 @@ sub register {
 	    file => $data_file,
 	    stash_key => 'any_data',
 	});
-	_load($dbh, $data);
+	$self->load($dbh, $data);
     }
     
     if ( $func && ref $func eq 'ARRAY' && scalar @$func > 0 ) {
 	$dbh->func(@$func);
     }
     
-    $app->helper( $param->{helper} => sub { return $dbh });
+    $app->helper( $param->{helper} => sub { return $dbh } );
+    $app->helper( any_data => sub { return $self } );
 }
 
-sub _load {
-    my ($dbh, $data) = @_;
+sub load {
+    my ($self, $dbh, $data) = @_;
     
     if ( $data && ref $data eq 'HASH' && keys %$data > 0 ) {
     	TABLE:
@@ -59,7 +60,7 @@ Mojolicious::Plugin::AnyData
 
 =head1 VERSION
 
-version 1.14
+version 1.20
 
 =head1 DESCRIPTION
 
@@ -111,6 +112,9 @@ Mojolicious::Plugin::AnyData provides all methods inherited from DBD::AnyData
 and DBI.
 
 The helper will be created with your specified name or 'db', by default.
+
+To get an access to instance of Mojolicious::Plugin::AnyData, you may
+use the special helper 'any_data'.
 
 On startup, there are two additional methods available:
 
