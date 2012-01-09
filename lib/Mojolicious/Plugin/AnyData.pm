@@ -79,7 +79,6 @@ sub func {
 }
 
 # Executes DBD::AnyData::func method to load data into a memory
-# Doesn't work if table_name is already exists in $loaded_tables arrayref
 sub ad_import {
     my ($self, $data) = @_;
     
@@ -157,22 +156,28 @@ handler by change development mode to production in your project:
 
     app->mode('production');
 
-=head1 METHOD/HELPERS
+=head1 HELPERS
 
 Mojolicious::Plugin::AnyData provides all methods inherited from DBD::AnyData
 and DBI.
 
-The helper will be created with your specified name or 'db', by default.
+=head3 db (or something else)
 
-To get an access to instance of Mojolicious::Plugin::AnyData, you may
-use the special helper 'any_data'.
+This helper will be created with your specified name or 'db', by default,
+to access to the database handler.
 
-On startup, there are two additional methods available:
+=head3 any_data
+
+The second helper gives you access to the plugin instance and provides the
+following methods:
+
+=head1 METHODS
 
 =head3 load_data
 
 It loads data from perl struct (hashref) into the memory. 
-It can support several tables at the same time.
+It can support several tables at the same time. You can use this methon
+on startup, like a simple config option:
 
     $self->plugin(any_data => {
 	load_data => {
@@ -188,6 +193,21 @@ It can support several tables at the same time.
 	    ],
 	},
     });
+
+Or like a real method of plugin in your programming code:
+
+    app->any_data->load_data({
+	artists => [
+	    ['id_artist', 'artist_name'],
+	    [          1, 'Metallica'],
+	    [          2, 'Dire Staits'],
+	],
+	releases => [
+	    ['id_release', 'release_name',  'id_artist'],
+	    [           1, 'Death Magnetic',          1],
+	    [           2, 'Load',                    1],
+	],
+    });
     
 You can also load data stuctures from a separate config, using
 Mojolicious::Plugin::Config:
@@ -196,6 +216,10 @@ Mojolicious::Plugin::Config:
 	load_data => 'test_data.conf',
 	helper    => 'db'
     });
+    
+    # or:
+    
+    app->any_data->load_data('test_data.conf');
 
 The plugin automatically checks the data type (hashref or simple scalar) and 
 in case if it's a scalar, treats it as the file name containing data.
@@ -203,11 +227,17 @@ They will be loaded automagically using Mojolicious::Plugin::Config.
 
 =head3 func
 
-Starts DBD::AnyData::func method after creating AnyData object with params:
+Makes wrapper for a common method DBD::AnyData::func with one simple improvement:
+it deletes a table with the same name if that table name is already exists
+in memory before loading a new data:
 
     $self->plugin(any_data => {
 	func => ['cars', 'XML', 'cars.xml', 'ad_import'],
     });
+    
+    # or, of course
+    
+    app->any_data->func('cars', 'XML', 'cars.xml', 'ad_import');
 
 =head1 SEE ALSO
 

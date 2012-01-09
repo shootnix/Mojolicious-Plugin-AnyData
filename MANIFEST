@@ -10,3 +10,4 @@ dist.ini
 lib/Mojolicious/Plugin/AnyData.pm
 t/00-load.t
 t/01-functional.t
+t/data.conf
