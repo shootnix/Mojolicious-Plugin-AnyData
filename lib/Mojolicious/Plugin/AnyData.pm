@@ -15,11 +15,10 @@ BEGIN {
 
 use Mojo::Base 'Mojolicious::Plugin';
 use DBI;
+use v5.10;
 
 has 'dbh';
 has 'app';
-
-my $loaded_tables = []; # keeps all names of loaded tables
 
 # Runs on a startup
 sub register {
@@ -41,7 +40,8 @@ sub register {
     }
     
     if ( $func && ref $func eq 'ARRAY' && scalar @$func > 0 ) {
-	$dbh->func(@$func);
+	#$dbh->func(@$func);
+	$self->func(@$func);
     }
     
     $app->helper( $param->{helper} => sub { return $dbh } );
@@ -56,7 +56,7 @@ sub load_data {
     return unless $self->dbh && $self->app;
     
     if ( ref $data ) {
-    	load_dbh($self->dbh, $data);
+    	$self->ad_import($data);
     }
     else {
     	my $data_file = $data;
@@ -64,25 +64,42 @@ sub load_data {
     	    file => $data_file,
     	    stash_key => 'any_data',
     	});
-    	load_dbh($self->dbh, $data);
+    	$self->ad_import($data);
     }
+}
+
+# Provides covered method for DBD::AnyData::func method
+sub func {
+    my ($self, $table_name, $table_type, $table_data, $table_method) = @_;
+    
+    return unless $self->dbh;
+    
+    $self->dbh->func($table_name, 'ad_clear');
+    $self->dbh->func( $table_name, $table_type, $table_data, $table_method );
 }
 
 # Executes DBD::AnyData::func method to load data into a memory
 # Doesn't work if table_name is already exists in $loaded_tables arrayref
-sub load_dbh {
-    my ($dbh, $data) = @_;
+sub ad_import {
+    my ($self, $data) = @_;
+    
+    return unless $self->dbh;
     
     if ( $data && ref $data eq 'HASH' && keys %$data > 0 ) {
     	TABLE:
 	for my $table_name ( keys %$data ) {
 	    next TABLE unless ref $data->{$table_name} eq 'ARRAY';
-	    next TABLE if $table_name ~~ $loaded_tables;
 	    
-    	    $dbh->func($table_name, 'ARRAY', $data->{$table_name}, 'ad_import');
-	    push @$loaded_tables, $table_name;
+	    $self->dbh->func($table_name, 'ad_clear');
+    	    $self->dbh->func($table_name, 'ARRAY', $data->{$table_name}, 'ad_import');
         }
     }
+}
+
+sub version {
+    my ($self) = @_;
+    
+    return $Mojolicious::Plugin::AnyData::VERSION;
 }
 
 1;
