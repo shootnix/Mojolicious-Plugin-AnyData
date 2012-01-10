@@ -2,10 +2,10 @@ Mojolicious::Plugin::AnyData
 ============================
 VERSION 1.20
 
-This Mojolicious web framework plugin:
-1. Provides access to DBD::AnyData instance from a Mojolicious helper.
-2. Creates wrappers for the most commonly used methods of DBD::AnyData into the 
-   plugin instance.
+This Mojolicious web framework plugin is intended for two purposes:
+1. To provide access to DBD::AnyData instance from a Mojolicious helper;
+2. To create wrappers in a plugin instance for the most commonly used 
+   methods of DBD::AnyData.
 
 It allows the test data to be loaded directly from the memory
 or separate config files, but not from a database. 
