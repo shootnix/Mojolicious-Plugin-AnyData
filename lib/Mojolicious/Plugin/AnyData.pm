@@ -20,7 +20,7 @@ use v5.10;
 has 'dbh';
 has 'app';
 
-# Runs on a startup
+# Run on startup
 sub register {
     my ($self, $app, $param) = @_;
     
@@ -48,7 +48,7 @@ sub register {
     $app->helper( any_data => sub { return $self } );
 }
 
-# Load data into a memory in a different ways
+# Load data into the memory using different ways
 # in: arrayref (data structure) or scalar (filename)
 sub load_data {
     my ($self, $data) = @_;
@@ -68,7 +68,7 @@ sub load_data {
     }
 }
 
-# Provides covered method for DBD::AnyData::func method
+# Provide the wrapper method for DBD::AnyData::func method
 sub func {
     my ($self, $table_name, $table_type, $table_data, $table_method) = @_;
     
@@ -78,7 +78,7 @@ sub func {
     $self->dbh->func( $table_name, $table_type, $table_data, $table_method );
 }
 
-# Executes DBD::AnyData::func method to load data into a memory
+# Execute DBD::AnyData::func method in order to load data into the memory
 sub ad_import {
     my ($self, $data) = @_;
     
@@ -164,11 +164,11 @@ and DBI.
 =head3 db (or something else)
 
 This helper will be created with your specified name or 'db', by default,
-to access to the database handler.
+in order to access a database handler.
 
 =head3 any_data
 
-The second helper gives you access to the plugin instance and provides the
+This helper gives access to a plugin instance and provides the
 following methods:
 
 =head1 METHODS
@@ -176,7 +176,7 @@ following methods:
 =head3 load_data
 
 It loads data from perl struct (hashref) into the memory. 
-It can support several tables at the same time. You can use this methon
+Also, it can support several tables at the same time. You can use this method
 on startup, like a simple config option:
 
     $self->plugin(any_data => {
@@ -194,7 +194,7 @@ on startup, like a simple config option:
 	},
     });
 
-Or like a real method of plugin in your programming code:
+Or, like a real plugin method in your program:
 
     app->any_data->load_data({
 	artists => [
@@ -227,9 +227,9 @@ They will be loaded automagically using Mojolicious::Plugin::Config.
 
 =head3 func
 
-Makes wrapper for a common method DBD::AnyData::func with one simple improvement:
-it deletes a table with the same name if that table name is already exists
-in memory before loading a new data:
+It provides a wrapper for the common DBD::AnyData::func method with one change:
+before loading new data, it will remove the table with the same name from the memory
+if it already exists.
 
     $self->plugin(any_data => {
 	func => ['cars', 'XML', 'cars.xml', 'ad_import'],
