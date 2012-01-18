@@ -60,7 +60,7 @@ get '/new-func' => sub {
 	        and cars.id = cars_numbers.id 
     }, undef, 1);
     
-    $self->reder(text => Dumper $cars_data);
+    $self->render(text => Dumper $cars_data);
 }
 
 ===========================
