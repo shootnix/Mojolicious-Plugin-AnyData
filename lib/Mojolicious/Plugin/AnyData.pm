@@ -10,7 +10,7 @@
 package Mojolicious::Plugin::AnyData;
 
 BEGIN {
-    $Mojolicious::Plugin::AnyData::VERSION = '1.20';
+    $Mojolicious::Plugin::AnyData::VERSION = 1.20;
 }
 
 use Mojo::Base 'Mojolicious::Plugin';
