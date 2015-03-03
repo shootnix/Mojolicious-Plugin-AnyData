@@ -95,11 +95,7 @@ sub ad_import {
     }
 }
 
-sub version {
-    my ($self) = @_;
-    
-    return $Mojolicious::Plugin::AnyData::VERSION;
-}
+sub version { return $Mojolicious::Plugin::AnyData::VERSION; }
 
 1;
 __END__
