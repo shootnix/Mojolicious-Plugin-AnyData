@@ -28,8 +28,8 @@ sub register {
 
     my ($data, $data_file);
     my $func   = $param->{func};
-    my $helper = $param->{helper};
-    $helper ||= 'db';
+    my $helper = $param->{helper} || 'db';
+
     my $dbh  = DBI->connect('dbi:AnyData:(RaiseError=>1)');
     
     $self->dbh($dbh);
