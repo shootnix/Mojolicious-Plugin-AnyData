@@ -82,7 +82,7 @@ sub ad_import {
     
     return unless $self->dbh;
     
-    if ( $data && ref $data eq 'HASH' && keys %$data > 0 ) {
+    if ( ref $data eq 'HASH' ) {
     	TABLE:
 	for my $table_name ( keys %$data ) {
 	    next TABLE unless ref $data->{$table_name} eq 'ARRAY';
