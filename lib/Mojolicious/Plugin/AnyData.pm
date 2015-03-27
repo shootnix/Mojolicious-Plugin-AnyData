@@ -35,9 +35,8 @@ sub register {
     $self->dbh($dbh);
     $self->app($app);
     
-    if ( $param->{load_data} ) {
-	$self->load_data( $param->{load_data} );
-    }
+    $self->load_data( $param->{load_data} ) if ( $param->{load_data} );
+
     
     if ( ref $func eq 'ARRAY' && @$func ) {
 	$self->func(@$func);
