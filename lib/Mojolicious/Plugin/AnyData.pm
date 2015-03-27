@@ -39,7 +39,7 @@ sub register {
 	$self->load_data( $param->{load_data} );
     }
     
-    if ( $func && ref $func eq 'ARRAY' && scalar @$func > 0 ) {
+    if ( ref $func eq 'ARRAY' && @$func ) {
 	#$dbh->func(@$func);
 	$self->func(@$func);
     }
