@@ -24,7 +24,7 @@ has 'app';
 sub register {
     my ($self, $app, $param) = @_;
     
-    return if $app->mode && $app->mode eq 'production';
+    return if 'production' eq $app->mode;
 
     my ($data, $data_file);
     my $func   = $param->{func};
