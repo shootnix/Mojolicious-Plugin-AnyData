@@ -40,7 +40,6 @@ sub register {
     }
     
     if ( ref $func eq 'ARRAY' && @$func ) {
-	#$dbh->func(@$func);
 	$self->func(@$func);
     }
     
