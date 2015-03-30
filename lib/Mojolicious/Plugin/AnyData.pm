@@ -10,7 +10,7 @@
 package Mojolicious::Plugin::AnyData;
 
 BEGIN {
-    $Mojolicious::Plugin::AnyData::VERSION = '1.20';
+    $Mojolicious::Plugin::AnyData::VERSION = 1.20;
 }
 
 use Mojo::Base 'Mojolicious::Plugin';
@@ -24,23 +24,21 @@ has 'app';
 sub register {
     my ($self, $app, $param) = @_;
     
-    return if $app->mode && $app->mode eq 'production';
+    return if 'production' eq $app->mode;
 
     my ($data, $data_file);
     my $func   = $param->{func};
-    my $helper = $param->{helper};
-    $helper ||= 'db';
+    my $helper = $param->{helper} || 'db';
+
     my $dbh  = DBI->connect('dbi:AnyData:(RaiseError=>1)');
     
     $self->dbh($dbh);
     $self->app($app);
     
-    if ( $param->{load_data} ) {
-	$self->load_data( $param->{load_data} );
-    }
+    $self->load_data( $param->{load_data} ) if ( $param->{load_data} );
+
     
-    if ( $func && ref $func eq 'ARRAY' && scalar @$func > 0 ) {
-	#$dbh->func(@$func);
+    if ( ref $func eq 'ARRAY' && @$func ) {
 	$self->func(@$func);
     }
     
@@ -84,7 +82,7 @@ sub ad_import {
     
     return unless $self->dbh;
     
-    if ( $data && ref $data eq 'HASH' && keys %$data > 0 ) {
+    if ( ref $data eq 'HASH' ) {
     	TABLE:
 	for my $table_name ( keys %$data ) {
 	    next TABLE unless ref $data->{$table_name} eq 'ARRAY';
@@ -95,11 +93,7 @@ sub ad_import {
     }
 }
 
-sub version {
-    my ($self) = @_;
-    
-    return $Mojolicious::Plugin::AnyData::VERSION;
-}
+sub version { return $Mojolicious::Plugin::AnyData::VERSION; }
 
 1;
 __END__
